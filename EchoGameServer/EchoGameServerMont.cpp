@@ -16,11 +16,8 @@ UINT __stdcall EchoGameServerMont::PerformanceCountFunc(void* arg)
 			// Connected to Mont Server..
 			serverMont->SendCounterToMontServer();
 		}
-		else if (!serverMont->m_MontConnectting) {
-			// Disonnected to Mont Server..
-			if (serverMont->ConnectToServer()) {
-				serverMont->m_MontConnectting = true;
-			}
+		else  {
+			serverMont->ConnectToServer();
 		}
 
 		Sleep(1000);
@@ -33,9 +30,8 @@ void EchoGameServerMont::SendCounterToMontServer()
 {
 	time_t now = time(NULL);
 	m_PerfCounter->ResetPerfCounterItems();
-	size_t allocMemPoolUnitCnt = m_PacketMemPoolUsageUnit;
 
-	JBuffer* perfMsg = AllocSerialSendBuff((sizeof(WORD) + sizeof(BYTE) + sizeof(int) + sizeof(int)) * 14);
+	JBuffer* perfMsg = AllocSerialSendBuff((sizeof(WORD) + sizeof(BYTE) + sizeof(int) + sizeof(int)) * 12);
 
 	(*perfMsg) << static_cast<WORD>(en_PACKET_CS_MONITOR_TOOL_DATA_UPDATE);
 	(*perfMsg) << static_cast<BYTE>(dfMONITOR_DATA_TYPE_GAME_SERVER_RUN);
@@ -94,7 +90,7 @@ void EchoGameServerMont::SendCounterToMontServer()
 
 	(*perfMsg) << static_cast<WORD>(en_PACKET_CS_MONITOR_TOOL_DATA_UPDATE);
 	(*perfMsg) << static_cast<BYTE>(dfMONITOR_DATA_TYPE_GAME_PACKET_POOL);
-	(*perfMsg) << static_cast<int>( m_PacketMemPoolUsageUnit);
+	(*perfMsg) << static_cast<int>(m_EchoGameServer->GetCurrentAllocatedMemUnitCnt());
 	(*perfMsg) << static_cast<int>( now);
 
 	SendPacket(perfMsg);
