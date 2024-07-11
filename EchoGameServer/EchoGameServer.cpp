@@ -64,9 +64,6 @@ void EchoGameServer::OnPrintLogOnConsole()
 void EchoGameServer::OnClientJoin(SessionID64 sessionID, const SOCKADDR_IN& clientSockAddr)
 {
 	EnterSessionGroup(sessionID, AUTH_SESSION_GROUP);
-#if defined(CONNECT_TO_MONITORING_SERVER)
-	g_ServerMont->Increment_GameSessionCount(true);
-#endif
 }
 
 void EchoGameServer::OnClientLeave(SessionID64 sessionID)

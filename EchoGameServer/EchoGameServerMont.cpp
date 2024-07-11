@@ -50,7 +50,7 @@ void EchoGameServerMont::SendCounterToMontServer()
 
 	(*perfMsg) << static_cast<WORD>(en_PACKET_CS_MONITOR_TOOL_DATA_UPDATE);
 	(*perfMsg) << static_cast<BYTE>(dfMONITOR_DATA_TYPE_GAME_SESSION);
-	(*perfMsg) << static_cast<int>( m_GameSessionCnt);
+	(*perfMsg) << static_cast<int>(m_EchoGameServer->GetCurrentSessions());
 	(*perfMsg) << static_cast<int>( now);
 
 	(*perfMsg) << static_cast<WORD>(en_PACKET_CS_MONITOR_TOOL_DATA_UPDATE);

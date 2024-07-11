@@ -60,7 +60,6 @@ public:
 
 private:
 	// 모니터링 항목
-	int			m_GameSessionCnt = 0;
 	uint64		m_TotalEnterCountInAuthGroup = 0;
 	uint64		m_TotalEnterCountInEchoGroup = 0;
 	uint64		m_TotalLeaveCountInAuthGroup = 0;
@@ -71,7 +70,7 @@ private:
 public:
 	void ConsoleLog() {
 		std::cout << "[Echo Game Server Mont]" << std::endl;
-		std::cout << "GameSessionCnt               : " << m_GameSessionCnt << std::endl;
+		std::cout << "GameSessionCnt               : " << m_EchoGameServer->GetCurrentSessions() << std::endl;
 		std::cout << "Total Enter Count(AuthGroup) : " << m_TotalEnterCountInAuthGroup << std::endl;
 		std::cout << "Total Leave Count(AuthGroup) : " << m_TotalLeaveCountInAuthGroup << std::endl;
 		std::cout << "Player In AuthGroup          : " << m_PlayerInAuthGroup << std::endl;
@@ -87,22 +86,7 @@ public:
 		std::cout << "[EchoGameServerMont::JNetCore Info]" << std::endl;
 		JNetCore::PrintLibraryInfoOnConsole();
 	}
-	inline void Increment_GameSessionCount(bool threadSafe = false) {
-		if (threadSafe) {
-			InterlockedIncrement((LONG*)&m_GameSessionCnt);
-		}
-		else {
-			m_GameSessionCnt++;
-		}
-	}
-	inline void Decrement_GameSessionCount(bool threadSafe = false) {
-		if (threadSafe) {
-			InterlockedDecrement((LONG*)&m_GameSessionCnt);
-		}
-		else {
-			m_GameSessionCnt++;
-		}
-	}
+	
 	inline void Increment_EnterInAuthGroup(bool threadSafe = false) {
 		if (threadSafe) {
 			InterlockedIncrement64((int64*)&m_TotalEnterCountInAuthGroup);
