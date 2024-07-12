@@ -6,26 +6,19 @@ extern EchoGameServerMont* g_ServerMont;
 
 void EchoThread::ProcessEchoMessage(SessionID64 sessionID, INT64 accountNo, LONGLONG sendTick)
 {
-
-	//JBuffer* resMsg = AllocSerialSendBuff(sizeof(stMSG_GAME_RES_ECHO));
 	JBuffer* resMsg = AllocSerialBuff();
 	stMSG_HDR* hdr = resMsg->DirectReserve<stMSG_HDR>();
 	hdr->code = dfPACKET_CODE;
 	hdr->len = sizeof(stMSG_GAME_RES_ECHO);
 	hdr->randKey = -1;
 
-	//JBuffer* resMsg = new JBuffer(sizeof(stMSG_HDR) + sizeof(stMSG_GAME_RES_ECHO));
-	//stMSG_HDR* hdr = resMsg->DirectReserve<stMSG_HDR>();
-	//hdr->code = dfPACKET_CODE;
-	//hdr->len = sizeof(stMSG_GAME_RES_ECHO);
-	//hdr->randKey = -1;
-
-	
 	*resMsg << (WORD)en_PACKET_CS_GAME_RES_ECHO;
 	*resMsg << accountNo;
 	*resMsg << sendTick;
 
-	SendPacket(sessionID, resMsg, true, false);
+	if (!SendPacket(sessionID, resMsg, true, false)) {
+		FreeSerialBuff(resMsg);
+	}
 }
 
 void EchoThread::OnStart()

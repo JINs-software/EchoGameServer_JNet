@@ -61,18 +61,13 @@ void AuthThread::SendLoginResponse(SessionID64 sessionID, INT64 accountNo, BYTE 
 	hdr->len = sizeof(stMSG_GAME_RES_LOGIN);
 	hdr->randKey = -1;
 
-	//JBuffer* resMsg = new JBuffer(sizeof(stMSG_HDR) + sizeof(stMSG_GAME_RES_LOGIN));
-	//stMSG_HDR* hdr = resMsg->DirectReserve<stMSG_HDR>();
-	//hdr->code = dfPACKET_CODE;
-	//hdr->len = sizeof(stMSG_GAME_RES_LOGIN);
-	//hdr->randKey = -1;
-
-
 	*resMsg << (WORD)en_PACKET_CS_GAME_RES_LOGIN;
 	*resMsg << status;
 	*resMsg << accountNo;
 
-	SendPacket(sessionID, resMsg, false, false);
+	if (!SendPacket(sessionID, resMsg, false, false)) {
+		FreeSerialBuff(resMsg);
+	}
 }
 
 void AuthThread::OnStart()
