@@ -93,5 +93,7 @@ void EchoGameServerMont::SendCounterToMontServer()
 	(*perfMsg) << static_cast<int>(m_EchoGameServer->GetCurrentAllocatedMemUnitCnt());
 	(*perfMsg) << static_cast<int>( now);
 
-	SendPacket(perfMsg);
+	if (!SendPacket(perfMsg)) {
+		FreeSerialBuff(perfMsg);
+	}
 }

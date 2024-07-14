@@ -85,7 +85,10 @@ void EchoThread::OnMessage(SessionID64 sessionID, JBuffer& recvData)
 		}
 
 		if (recvMsgCnt > 0) {
-			SendPacket(sessionID, resMsg, true, false);		// 워커 스레드에 송신 책임 할당
+			if (!SendPacket(sessionID, resMsg, true, false)) {		// 워커 스레드에 송신 책임 할당
+				FreeSerialBuff(resMsg);
+				break;
+			}
 #if defined(CONNECT_TO_MONITORING_SERVER)
 			//m_Server->Increment(false, recvMsgCnt);;
 			m_Server->IncrementSendTransactions(false, recvMsgCnt);
