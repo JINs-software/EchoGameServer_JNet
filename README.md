@@ -1,6 +1,7 @@
 ### \[에코 서버 성능/오류 테스트\]
 * 7일간의 에코 성능 테스트
-  
+  ![image](https://github.com/user-attachments/assets/7d8147aa-1b2e-4332-b1c6-b0b8cdcbc9d9)
+
 #### 테스트 조건
 * 수신 TPS: 150만 이상
 * 송신 TPC: 150만 이상
@@ -21,6 +22,7 @@
 
 ### \[에코 재접속 모드 테스트\]
 * 7일간의 에코 재접속 모드 테스트
+  ![image](https://github.com/user-attachments/assets/149e4fb0-312e-4bad-9269-cf38d41cc3ce)
 
 #### 테스트 조건
 * 더미 그룹 5000명
